@@ -1,5 +1,5 @@
 # jg-stress-addon
-A standalone stress system, designed for JG HUD. I already like qbx_hud's stress system, but don't understand why it's built into qbx_hud, and is not a separate resource.
+A standalone stress system, designed to work with JG HUD out of the box. I already like qbx_hud's stress system, but don't understand why it's built into qbx_hud, and is not a separate resource.
 
 This is all this resource provides. qbx_hud's stress system, in a separate resource, and will work out of the box with JG HUD with no additional configuration required.
 
