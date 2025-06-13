@@ -5,6 +5,8 @@ This is all this resource provides. qbx_hud's stress system, in a separate resou
 
 All it does is update the LocalPlayer's statebag with the `stress` key. In case you want to use this with a different HUD!
 
+qbx_hud: https://github.com/Qbox-project/qbx_hud
+
 ### Fetching the player's current stress level
 
 ```lua
