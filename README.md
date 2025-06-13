@@ -18,7 +18,7 @@ _This resource is standalone; and works with any framework such as Qbox, QB, ESX
 ### Fetching the player's current stress level
 
 ```lua
-local stress = LocalPlayer.state?.stress or 0
+local stress = LocalPlayer?.state.stress or 0
 ```
 
 ### Resetting/reducing the player's stress level
@@ -26,7 +26,7 @@ local stress = LocalPlayer.state?.stress or 0
 ```lua
 local amountToReduceBy = 100
 local state = LocalPlayer?.state
-state:set("stress", math.max(0, state?.stress or 0))
+state:set("stress", math.max(0, (state.stress or 0) - amountToReduceBy))
 ```
 
 This script also includes the server sided event `hud:server:RelieveStress`, to relieve stress with existing Qbox/QBCore integrations.
