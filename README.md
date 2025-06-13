@@ -7,6 +7,12 @@ All it does is update the LocalPlayer's statebag with the `stress` key. In case 
 
 qbx_hud: https://github.com/Qbox-project/qbx_hud
 
+_This resource is standalone; and works with any framework such as Qbox, QB, ESX, ND etc, or no framework at all._
+
+### Requirements
+
+- OneSync Infinity
+
 ### Fetching the player's current stress level
 
 ```lua
@@ -15,7 +21,7 @@ local stress = LocalPlayer.state?.stress or 0
 
 ### License/Disclaimer
 
-This repository is entirely code from qbx_hud, JG Scripts take no credit for it. qbx_hud doesn't seem to have a specific license attached to it to add here. If you close this code in part or in it's entirely, ensure you credit the original developer: https://github.com/Qbox-project
+This repository is entirely code from qbx_hud (adapted a little bit) & JG Scripts takes absolutely no credit for it. qbx_hud doesn't seem to have a specific license attached to it to add here. If you use this code in part or in it's entirity, ensure you credit the original developer: https://github.com/Qbox-project
 
 (c) 2025 https://github.com/Qbox-project
 
