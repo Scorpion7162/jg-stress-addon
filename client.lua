@@ -1,11 +1,11 @@
 local speedMultiplier = Config.UseMPH and 2.23694 or 3.6
 
 local function getStress()
-  return LocalPlayer?.state?.stress or 0
+  return LocalPlayer.state?.stress or 0
 end
 
 local function gainStress(amount)
-  local state = LocalPlayer?.state
+  local state = LocalPlayer.state
   if not state then return end
   state:set("stress", getStress() + amount, true)
 end
