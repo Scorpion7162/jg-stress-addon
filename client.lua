@@ -1,9 +1,7 @@
 local speedMultiplier = Config.UseMPH and 2.23694 or 3.6
-
 local function getStress()
   return LocalPlayer.state?.stress or 0
 end
-
 local function gainStress(amount)
   local state = LocalPlayer.state
   if not state then return end
@@ -11,15 +9,12 @@ local function gainStress(amount)
 end
 
 -- Stress from speeding
-
 local function startVehicleStressThread()
   CreateThread(function()
     Wait(1)
-
     while cache.vehicle do
       local vehClass = GetVehicleClass(cache.vehicle)
       local speed = GetEntitySpeed(cache.vehicle) * speedMultiplier
-
       if vehClass ~= 13 and vehClass ~= 14 and vehClass ~= 15 and vehClass ~= 16 and vehClass ~= 21 then
         local stressSpeed
         if vehClass == 8 then
@@ -31,26 +26,19 @@ local function startVehicleStressThread()
           gainStress(math.random(1, 3))
         end
       end
-
       Wait(10000)
     end
   end)
 end
-
 lib.onCache("vehicle", function(vehicle)
   if not vehicle then return end
-
   startVehicleStressThread()
 end)
-
 CreateThread(function()
   if cache.vehicle then
     startVehicleStressThread()
   end
 end)
-
--- Stress from Weapons
-
 local function isWhitelistedWeaponStress(weapon)
   if weapon then
     for _, v in pairs(Config.Stress.whitelistedWeapons) do
@@ -63,19 +51,18 @@ local function isWhitelistedWeaponStress(weapon)
   return false
 end
 
-local function startWeaponStressThread(weapon)
-  if isWhitelistedWeaponStress(GetEntityModel(weapon)) then return end
 
+-- Stress from weapons
+local function startWeaponStressThread(weapon)
+  if isWhitelistedWeaponStress(weapon) then return end
   CreateThread(function()
     Wait(1)
-
     while cache.weapon do
       if IsPedShooting(cache.ped) then
         if math.random() <= Config.Stress.chance then
           gainStress(math.random(1, 5))
         end
       end
-
       Wait(0)
     end
   end)
@@ -83,17 +70,13 @@ end
 
 lib.onCache("weapon", function(weapon)
   if not weapon then return end
-
   startWeaponStressThread(weapon)
 end)
-
 CreateThread(function()
   if cache.weapon then
     startWeaponStressThread(cache.weapon)
   end
 end)
-
--- Stress Screen Effects
 
 local function getBlurIntensity(stresslevel)
   for _, v in pairs(Config.Stress.blurIntensity) do
@@ -101,7 +84,6 @@ local function getBlurIntensity(stresslevel)
       return v.intensity
     end
   end
-
   return 1500
 end
 
@@ -111,7 +93,6 @@ local function getEffectInterval(stresslevel)
       return v.timeout
     end
   end
-
   return 60000
 end
 
@@ -126,14 +107,11 @@ CreateThread(function()
       TriggerScreenblurFadeIn(1000.0)
       Wait(blurIntensity)
       TriggerScreenblurFadeOut(1000.0)
-
       if not IsPedRagdoll(cache.ped) and IsPedOnFoot(cache.ped) and not IsPedSwimming(cache.ped) then
         local forwardVector = GetEntityForwardVector(cache.ped)
         SetPedToRagdollWithFall(cache.ped, ragdollTimeout, ragdollTimeout, 1, forwardVector.x, forwardVector.y, forwardVector.z, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
       end
-
       Wait(1000)
-
       for _ = 1, fallRepeat, 1 do
         Wait(750)
         DoScreenFadeOut(200)
@@ -149,7 +127,6 @@ CreateThread(function()
       Wait(blurIntensity)
       TriggerScreenblurFadeOut(1000.0)
     end
-
     Wait(effectInterval)
   end
 end)
