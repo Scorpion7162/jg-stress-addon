@@ -2,6 +2,8 @@ local speedMultiplier = Config.UseMPH and 2.23694 or 3.6
 local function getStress()
   return LocalPlayer.state?.stress or 0
 end
+
+
 local function gainStress(amount)
   local state = LocalPlayer.state
   if not state then return end
@@ -39,6 +41,7 @@ CreateThread(function()
     startVehicleStressThread()
   end
 end)
+
 local function isWhitelistedWeaponStress(weapon)
   if weapon then
     for _, v in pairs(Config.Stress.whitelistedWeapons) do
@@ -51,16 +54,25 @@ local function isWhitelistedWeaponStress(weapon)
   return false
 end
 
+local currentWeaponThread = nil
 
 -- Stress from weapons
 local function startWeaponStressThread(weapon)
+  if currentWeaponThread then
+    currentWeaponThread = nil -- Clear cache so it doesnt mess with whitelisted weapons :D 
+  end
+  
   if isWhitelistedWeaponStress(weapon) then return end
-  CreateThread(function()
+  
+  currentWeaponThread = CreateThread(function()
+    local thisThread = currentWeaponThread
     Wait(1)
-    while cache.weapon do
-      if IsPedShooting(cache.ped) then
-        if math.random() <= Config.Stress.chance then
-          gainStress(math.random(1, 5))
+    while cache.weapon and thisThread == currentWeaponThread do
+      if not isWhitelistedWeaponStress(cache.weapon) then
+        if IsPedShooting(cache.ped) then
+          if math.random() <= Config.Stress.chance then
+            gainStress(math.random(1, 5))
+          end
         end
       end
       Wait(0)
@@ -69,9 +81,13 @@ local function startWeaponStressThread(weapon)
 end
 
 lib.onCache("weapon", function(weapon)
-  if not weapon then return end
+  if not weapon then 
+    currentWeaponThread = nil
+    return 
+  end
   startWeaponStressThread(weapon)
 end)
+
 CreateThread(function()
   if cache.weapon then
     startWeaponStressThread(cache.weapon)
