@@ -28,6 +28,6 @@ Config.Stress = {
   },
 }
 
-Config.WhitelistedJobs = {"police", "police2"} -- Disable stress for whatever jobs you want
+Config.WhitelistedJobs = {'police', 'police2'} -- Disable stress for whatever jobs you want
 
 return Config

@@ -50,7 +50,7 @@ local function gainStress(amount)
   if isJobWhitelisted() then return end
   local state = LocalPlayer.state
   if not state then return end
-  state:set("stress", getStress() + amount, true)
+  state:set('stress', getStress() + amount, true)
 end
 
 local function startVehicleStressThread()
@@ -72,7 +72,7 @@ local function startVehicleStressThread()
   end)
 end
 
-lib.onCache("vehicle", function(vehicle)
+lib.onCache('vehicle', function(vehicle)
   if not vehicle then return end
   startVehicleStressThread()
 end)
@@ -109,7 +109,7 @@ local function startWeaponStressThread(weapon)
   end)
 end
 
-lib.onCache("weapon", function(weapon)
+lib.onCache('weapon', function(weapon)
   if not weapon then 
     currentWeaponThread = nil
     return 
