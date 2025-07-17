@@ -1,4 +1,4 @@
-Config = {}
+local Config = {}
 
 Config.UseMPH = false
 
@@ -27,3 +27,7 @@ Config.Stress = {
     [5] = {min = 90, max = 100, timeout = math.random(15000, 20000)},
   },
 }
+
+Config.WhitelistedJobs = {'police', 'police2'} -- Disable stress for whatever jobs you want
+
+return Config
