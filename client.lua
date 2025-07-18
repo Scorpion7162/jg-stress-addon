@@ -36,7 +36,9 @@ local function isJobWhitelisted()
     if not currentJob then return false end
     return lib.table.contains(Config.WhitelistedJobs, currentJob)
   elseif framework == 'qbx' then
-    return exports.qbx_core:HasPrimaryGroup(Config.WhitelistedJobs)
+  local PlayerData = exports.qbx_core:GetPlayerData()
+  if not PlayerData?.job?.name then return false end
+  return lib.table.contains(Config.WhitelistedJobs, PlayerData.job.name)
   elseif framework == 'qb' then
     local PlayerData = FrameworkObject.Functions.GetPlayerData()
     local currentJob = PlayerData?.job?.name
