@@ -52,7 +52,9 @@ local function gainStress(amount)
   if isJobWhitelisted() then return end
   local state = LocalPlayer.state
   if not state then return end
-  state:set('stress', getStress() + amount, true)
+  local newStress = getStress() + amount
+  state:set('stress', newStress, true)
+  TriggerServerEvent('updateStress', newStress)
 end
 
 local function startVehicleStressThread()
@@ -69,7 +71,7 @@ local function startVehicleStressThread()
           end
         end
       end
-      Wait(10000)
+      Wait(1000)
     end
   end)
 end
@@ -94,7 +96,7 @@ local currentWeaponThread = nil
 
 local function startWeaponStressThread(weapon)
   if currentWeaponThread then
-    currentWeaponThread = nil -- Clear cache so it doesnt mess with whitelisted weapons :D 
+    currentWeaponThread = nil
   end
   
   if isWhitelistedWeaponStress(weapon) then return end
