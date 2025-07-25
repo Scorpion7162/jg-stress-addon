@@ -1,6 +1,7 @@
 local Config = {}
 
-Config.UseMPH = false
+Config.Debug = false -- Loads of prints in F8 
+Config.UseMPH = false -- Use MPH instead of KPH
 
 Config.Stress = {
   chance = 0.1, -- Percentage stress chance when shooting (0-1)
@@ -8,7 +9,7 @@ Config.Stress = {
   minForSpeeding = 1000, -- Minimum stress level for speeding while buckled (works with JG HUD seatbelt)
   minForSpeedingUnbuckled = 50, -- Minimum stress level for speeding while unbuckled (works with JG HUD seatbelt)
   whitelistedWeapons = { -- Weapons which don't give stress
-    `weapon_petrolcan`,
+    `weapon_petrolcan`, -- Please use backticks (`) not quotes ("/')
     `weapon_hazardcan`,
     `weapon_fireextinguisher`,
   },
