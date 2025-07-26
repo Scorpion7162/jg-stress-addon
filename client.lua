@@ -43,6 +43,21 @@ local function getStress()
   return val
 end
 
+RegisterNetEvent('stress:setStress', function(stressValue)
+  DebugPrint('Received stress from server: %s', stressValue)
+  LocalPlayer.state:set('stress', stressValue, true)
+end)
+
+AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
+  DebugPrint('QBCore player loaded, requesting stress from server')
+  TriggerServerEvent('stress:requestStress')
+end)
+
+AddEventHandler('esx:playerLoaded', function(xPlayer, isNew, skin)
+  DebugPrint('ESX player loaded, requesting stress from server')
+  TriggerServerEvent('stress:requestStress')
+end)
+
 local function isJobWhitelisted()
   if framework == 'esx' then
     local PlayerData = FrameworkObject.GetPlayerData()
@@ -82,7 +97,7 @@ local function gainStress(amount)
   local newStress = getStress() + amount
   state:set('stress', newStress, true)
   DebugPrint('Stress increased by %s, new value: %s', amount, newStress)
-  TriggerServerEvent('updateStress', newStress)
+  TriggerServerEvent('stress:updateStress', newStress)
 end
 
 local function startVehicleStressThread()
