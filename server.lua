@@ -1,5 +1,5 @@
 local resetStress = false
-
+local Config = lib.load('config')
 --[[ RegisterNetEvent('hud:server:GainStress', function(amount)
     local src = source
     local player = exports.qbx_core:GetPlayer(src)
