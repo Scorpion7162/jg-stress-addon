@@ -243,3 +243,30 @@ CreateThread(function()
     Wait(effectInterval)
   end
 end)
+
+local function resetStress()
+  DebugPrint('Resetting stress to 0')
+  LocalPlayer.state:set('stress', 0, true)
+end
+
+local function SetStressLevel(amount)
+  if amount < 0 then amount = 0 end
+  if amount > 100 then amount = 100 end
+  DebugPrint('Setting stress level to: %s', amount)
+  LocalPlayer.state:set('stress', amount, true)
+end
+
+
+-- This will have to be use as exports['jg-stress-addon']:getStress
+exports('getStress', getStress)
+-- This will have to be use as exports['jg-stress-addon']:gainStress(amount)
+exports('gainStress', gainStress)
+-- This will have to be use as exports['jg-stress-addon']:isJobWhitelisted()
+exports('isJobWhitelisted', isJobWhitelisted)
+-- This will have to be use as exports['jg-stress-addon']:resetStress() 
+exports('resetStress', resetStress)
+
+-- This will have to be use as exports['jg-stress-addon']:setStressLevel(amount)
+exports('setStressLevel', SetStressLevel)
+
+-- THIS HAS NOT BEEN TESTED
