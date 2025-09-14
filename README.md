@@ -44,3 +44,34 @@ If you need to contact JG Scripts; email: hello@jgscripts.com
 ```
 
 ```
+### CLIENT SIDE EXPORTS:
+
+```lua
+-- Get the stress level of the player that uses it, returns integer 0-100
+exports['jg-stress-addon']:getStress()
+
+-- gain stress level
+-- amount = int 0-100
+exports['jg-stress-addon']:gainStress(amount)
+
+-- returns boolean (true/false)
+exports['jg-stress-addon']:isPlayerJobWhitelisted()
+
+-- sets player who called it stress to 0
+exports['jg-stress-addon']:resetStress() 
+
+-- Sets a player stress value to a specific value
+exports['jg-stress-addon']:setStressLevel(amount)
+```
+
+### SERVER SIDE EVENTS
+
+```lua
+---@param amount integer  
+TriggerServerEvent('hud:server:RelieveStress', amount)
+```
+
+```lua
+---@param amount integer
+TriggerServerEvent('hud:server:GainStress', amount)
+```

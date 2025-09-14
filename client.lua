@@ -2,7 +2,7 @@ local Config = lib.load('config')
 
 local function DebugPrint(fmt, ...)
   if Config.Debug then
-    lib.print.debug(string.format(fmt, ...))
+    print('[DEBUG]' .. string.format(fmt, ...))
   end
 end
 
@@ -262,7 +262,7 @@ exports('getStress', getStress)
 -- This will have to be use as exports['jg-stress-addon']:gainStress(amount)
 exports('gainStress', gainStress)
 -- This will have to be use as exports['jg-stress-addon']:isJobWhitelisted()
-exports('isJobWhitelisted', isJobWhitelisted)
+exports('isPlayerJobWhitelisted', isJobWhitelisted)
 -- This will have to be use as exports['jg-stress-addon']:resetStress() 
 exports('resetStress', resetStress)
 
