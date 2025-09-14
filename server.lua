@@ -1,6 +1,6 @@
 local resetStress = false
 local Config = lib.load('config')
---[[ RegisterNetEvent('hud:server:GainStress', function(amount)
+RegisterNetEvent('hud:server:GainStress', function(amount)
     local src = source
     local player = exports.qbx_core:GetPlayer(src)
     local newStress
@@ -20,8 +20,7 @@ local Config = lib.load('config')
     end
 
     Player(src)?.state:set('stress', newStress, true)
-    -- exports.qbx_core:Notify(src, locale('notify.stress_gain'), 'inform', 2500, nil, nil, {'#141517', '#ffffff'}, 'brain', '#C53030')
-end) ]]
+end)
 
 local function getStress(src)
   return Player(src)?.state?.stress or 0
