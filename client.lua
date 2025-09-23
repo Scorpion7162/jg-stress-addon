@@ -6,7 +6,7 @@ local function DebugPrint(fmt, ...)
   end
 end
 
-local function loadframework()
+function loadframework()
   local frameworks = {
     { name = 'esx', resource = 'es_extended' },
     { name = 'qbx', resource = 'qbx_core' },
