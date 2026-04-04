@@ -1,8 +1,9 @@
 local resetStress = false
-local Config = lib.load('config')
+local Config = lib.require('config')
+
 RegisterNetEvent('hud:server:GainStress', function(amount)
     local src = source
-    local player = exports.qbx_core:GetPlayer(src)
+    local player = GetPlayer(src)
     local newStress
     
     if not player or (Config.stress.disableForLEO and player.PlayerData.job.type == 'leo') then return end
@@ -59,4 +60,16 @@ RegisterNetEvent('hud:server:RelieveStress', function(amount)
   
   Player(src).state:set('stress', newStress, true)
   -- exports.qbx_core:Notify(src, locale('notify.stress_removed'), 'inform', 2500, nil, nil, {'#141517', '#ffffff'}, 'brain', '#0F52BA')
+end)
+
+exports('relieveStress', function(src, amount)
+  TriggerEvent('hud:server:RelieveStress', src, amount)
+end)
+
+exports('gainStress', function(src, amount)
+  TriggerEvent('hud:server:GainStress', src, amount)
+end)
+
+exports('getStress', function(src)
+  return getStress(src)
 end)
