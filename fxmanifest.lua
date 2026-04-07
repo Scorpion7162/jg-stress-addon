@@ -2,16 +2,26 @@ fx_version 'cerulean'
 game 'gta5'
 lua54 'yes'
 use_experimental_fxv2_oal 'yes'
-
 description 'For support or other queries: discord.gg/jgscripts'
-version '1.4'
 repository 'https://github.com/jgscripts/jg-stress-addon'
+version '2.0'
 
-client_script 'client.lua'
+
+
+client_scripts{
+  'client/init.lua',
+  'client/vehicle.lua',
+  'client/weapon.lua',
+  'client/effects.lua',
+  'client/whitelist.lua',
+  'client/stress.lua'
+
+}
 
 shared_scripts {
   '@ox_lib/init.lua',
-  'config.lua',
+  'shared/utils.lua',
+  'config/config.lua',
 }
 
-server_script 'server.lua'
+server_script 'server/server.lua'

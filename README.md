@@ -75,3 +75,25 @@ TriggerServerEvent('hud:server:RelieveStress', amount)
 ---@param amount integer
 TriggerServerEvent('hud:server:GainStress', amount)
 ```
+
+### SERVER SIDE EXPORTS
+
+```lua
+---@param amount integer
+-- returns the amount of stress a player has 
+exports['jg-stress-addon']:getStress(src)
+```
+
+```lua
+---@param src integer
+---@param amount integer
+-- increases the amount of stress a player has 
+exports['jg-stress-addon']:gainStress(src, amount)
+```
+
+```lua
+---@param src integer
+---@param amount integer
+-- lowers the amount of stress a player has 
+exports['jg-stress-addon']:relieveStress(src, amount)
+```
