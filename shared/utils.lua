@@ -1,4 +1,4 @@
-local Config = lib.load('config')
+local Config = lib.load('config.config')
 
 function InitFramework()
     if GetResourceState('qbx_core') == 'started' then
