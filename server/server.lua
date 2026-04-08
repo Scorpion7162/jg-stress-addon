@@ -1,5 +1,5 @@
 local resetStress = false
-local Config = lib.require('config')
+local Config = lib.require('config.config')
 
 RegisterNetEvent('hud:server:GainStress', function(amount)
     local src = source
