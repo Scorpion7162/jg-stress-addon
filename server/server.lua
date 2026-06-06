@@ -1,5 +1,8 @@
 local Config = lib.require('config.config')
 
+if Config.VersionCheck then
+  lib.versionCheck('jgscripts/jg-stress-addon')
+end
 ---@param src integer
 ---@return number
 local function getStress(src)
@@ -34,17 +37,14 @@ local function relieveStress(src, amount)
 end
 
 RegisterNetEvent('jg-stress-addon:server:gainStress', function(amount)
-  if GetInvokingResource() then return end
   gainStress(source, amount)
 end)
 
 RegisterNetEvent('jg-stress-addon:server:setStress', function(amount)
-  if GetInvokingResource() then return end
   setStress(source, amount)
 end)
 
 RegisterNetEvent('jg-stress-addon:server:resetStress', function()
-  if GetInvokingResource() then return end
   setStress(source, MIN_STRESS)
 end)
 
