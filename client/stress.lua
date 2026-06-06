@@ -17,7 +17,7 @@ return function(isJobWhitelisted, Config)
       return
     end
 
-    local newStress = getStress() + amount
+    local newStress = math.max(0, math.min(100, getStress() + amount))
     state:set('stress', newStress, true)
     DebugPrint('Stress increased by %s, new value: %s', amount, newStress)
     TriggerServerEvent('updateStress', newStress)
