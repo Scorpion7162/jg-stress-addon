@@ -13,8 +13,9 @@ return function(getStress, isJobWhitelisted, Config)
   local function getEffectInterval(stresslevel)
     for _, v in pairs(Config.Stress.effectInterval) do
       if lib.math.clamp(stresslevel, v.min, v.max) == stresslevel then
-        DebugPrint('Effect interval matched for stress %s: %s', stresslevel, v.timeout)
-        return v.timeout
+        local timeout = math.random(v.timeoutMin, v.timeoutMax)
+        DebugPrint('Effect interval matched for stress %s: %s', stresslevel, timeout)
+        return timeout
       end
     end
     DebugPrint('No interval match found for stress %s, defaulting', stresslevel)
