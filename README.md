@@ -57,6 +57,9 @@ exports['jg-stress-addon']:gainStress(amount)
 -- returns boolean (true/false)
 exports['jg-stress-addon']:isPlayerJobWhitelisted()
 
+-- returns boolean (true/false), checks the player's current vehicle
+exports['jg-stress-addon']:isVehicleWhitelisted()
+
 -- sets player who called it stress to 0
 exports['jg-stress-addon']:resetStress() 
 

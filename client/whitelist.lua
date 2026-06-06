@@ -4,6 +4,11 @@ return function(framework, FrameworkObject, Config)
     whitelistedJobs[job] = true
   end
 
+  local whitelistedVehicles = {}
+  for _, model in ipairs(Config.WhitelistedVehicles or {}) do
+    whitelistedVehicles[joaat(model)] = true
+  end
+
   local function getPlayerData()
     if framework == 'esx' and FrameworkObject then
       return FrameworkObject.GetPlayerData()
@@ -24,5 +29,17 @@ return function(framework, FrameworkObject, Config)
     return whitelistedJobs[currentJob] == true
   end
 
-  return { isJobWhitelisted = isJobWhitelisted }
+  local function isVehicleWhitelisted(vehicle)
+    if not next(whitelistedVehicles) then return false end
+    vehicle = vehicle or cache.vehicle
+    if not vehicle or vehicle == 0 then return false end
+    local result = whitelistedVehicles[GetEntityModel(vehicle)] == true
+    DebugPrint('Vehicle whitelist check (%s): %s', vehicle, result)
+    return result
+  end
+
+  return {
+    isJobWhitelisted     = isJobWhitelisted,
+    isVehicleWhitelisted = isVehicleWhitelisted,
+  }
 end

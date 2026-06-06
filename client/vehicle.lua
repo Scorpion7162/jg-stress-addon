@@ -1,10 +1,10 @@
-return function(gainStress, isJobWhitelisted, speedMultiplier, Config)
+return function(gainStress, isJobWhitelisted, isVehicleWhitelisted, speedMultiplier, Config)
   local function startVehicleStressThread()
     DebugPrint('Starting vehicle stress thread')
     CreateThread(function()
       Wait(1)
       while cache.vehicle do
-        if not isJobWhitelisted() then
+        if not isJobWhitelisted() and not isVehicleWhitelisted(cache.vehicle) then
           local vehClass = GetVehicleClass(cache.vehicle)
           local speed    = GetEntitySpeed(cache.vehicle) * speedMultiplier
           DebugPrint('Vehicle class: %s | Speed: %.2f', vehClass, speed)
