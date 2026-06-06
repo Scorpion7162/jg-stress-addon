@@ -12,7 +12,7 @@ _This resource is standalone; and works with any framework such as Qbox, QB, ESX
 
 ### Requirements
 
-- ox_lib [[original](https://github.com/overextended/ox_lib)] [[maintained fork](https://github.com/CommunityOx/ox_lib)]
+- [ox_lib](https://github.com/overextended/ox_lib)
 - OneSync Infinity
 
 ### Fetching the player's current stress level
