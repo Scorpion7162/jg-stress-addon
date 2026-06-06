@@ -2,6 +2,7 @@ local Config = lib.require('config.config')
 
 local STRESS_GAIN_MIN = 1
 local STRESS_GAIN_MAX = 5
+local WEAPON_STRESS_DEBOUNCE = 1000
 
 return function(gainStress)
   local activeThreadId = 0
@@ -13,7 +14,6 @@ return function(gainStress)
   local function startWeaponStressThread(weapon)
     local myThreadId = activeThreadId + 1
     activeThreadId = myThreadId
-
     if isWeaponWhitelisted(weapon) then
       DebugPrint('Weapon %s is whitelisted, skipping thread', weapon)
       return
@@ -22,11 +22,13 @@ return function(gainStress)
     DebugPrint('Starting weapon stress thread for: %s', weapon)
     CreateThread(function()
       while cache.weapon and activeThreadId == myThreadId do
-        if not isWeaponWhitelisted(cache.weapon) and IsPedShooting(cache.ped) and math.random() <= Config.Stress.chance then
+        if IsPedShooting(cache.ped) and math.random() <= Config.Stress.chance then
           DebugPrint('Shooting with non-whitelisted weapon: %s', cache.weapon)
           gainStress(math.random(STRESS_GAIN_MIN, STRESS_GAIN_MAX))
+          Wait(WEAPON_STRESS_DEBOUNCE)
+        else
+          Wait(0)
         end
-        Wait(0)
       end
       DebugPrint('Weapon stress thread exited')
     end)

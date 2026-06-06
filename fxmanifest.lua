@@ -13,11 +13,8 @@ shared_scripts {
 }
 
 client_scripts {
-  'client/init.lua',
-}
-
--- Loaded on demand by client/init.lua via lib.load; listed here only so they are sent to clients.
-files {
+    'client/init.lua',
+  -- soooo apparently I cant just put this in files {}, kiiinda stupid
   'client/whitelist.lua',
   'client/stress.lua',
   'client/vehicle.lua',
