@@ -1,20 +1,40 @@
-return function(gainStress, isJobWhitelisted, isVehicleWhitelisted, speedMultiplier, Config)
-  local function startVehicleStressThread()
-    DebugPrint('Starting vehicle stress thread')
-    CreateThread(function()
-      Wait(1)
-      while cache.vehicle do
-        if not isJobWhitelisted() and not isVehicleWhitelisted(cache.vehicle) then
-          local vehClass = GetVehicleClass(cache.vehicle)
-          local speed    = GetEntitySpeed(cache.vehicle) * speedMultiplier
-          DebugPrint('Vehicle class: %s | Speed: %.2f', vehClass, speed)
+local Config = lib.require('config.config')
 
-          if vehClass ~= 13 and vehClass ~= 14 and vehClass ~= 15 and vehClass ~= 16 and vehClass ~= 21 then
-            local hasSeatbelt = LocalPlayer.state?.seatbelt
-            local stressSpeed = (vehClass == 8 or hasSeatbelt) and Config.Stress.speedThresholdBuckled or Config.Stress.speedThresholdUnbuckled
-            if speed >= stressSpeed then
-              DebugPrint('Speed exceeded threshold (%.2f), applying stress', stressSpeed)
-              gainStress(math.random(1, 3))
+local MPH_MULTIPLIER = 2.23694
+local KPH_MULTIPLIER = 3.6
+local VEHICLE_CLASS_MOTORCYCLE = 8
+local STRESS_GAIN_MIN = 1
+local STRESS_GAIN_MAX = 3
+-- Vehicle classes that never cause driving stress: cycles, boats, helicopters, planes, trains.
+local NO_STRESS_VEHICLE_CLASSES = {
+  [13] = true,
+  [14] = true,
+  [15] = true,
+  [16] = true,
+  [21] = true,
+}
+
+return function(gainStress, isJobWhitelisted, isVehicleWhitelisted)
+  local speedMultiplier = Config.UseMPH and MPH_MULTIPLIER or KPH_MULTIPLIER
+  local activeThreadId = 0
+
+  local function startVehicleStressThread()
+    local myThreadId = activeThreadId + 1
+    activeThreadId = myThreadId
+    DebugPrint('Starting vehicle stress thread')
+
+    CreateThread(function()
+      while cache.vehicle and activeThreadId == myThreadId do
+        local vehicle = cache.vehicle
+        if not isJobWhitelisted() and not isVehicleWhitelisted(vehicle) then
+          local vehClass = GetVehicleClass(vehicle)
+          if not NO_STRESS_VEHICLE_CLASSES[vehClass] then
+            local speed = GetEntitySpeed(vehicle) * speedMultiplier
+            local buckled = vehClass == VEHICLE_CLASS_MOTORCYCLE or LocalPlayer.state?.seatbelt
+            local threshold = buckled and Config.Stress.speedThresholdBuckled or Config.Stress.speedThresholdUnbuckled
+            DebugPrint('Vehicle class: %s | Speed: %.2f | Threshold: %.2f', vehClass, speed, threshold)
+            if speed >= threshold then
+              gainStress(math.random(STRESS_GAIN_MIN, STRESS_GAIN_MAX))
             end
           end
         end
@@ -25,15 +45,14 @@ return function(gainStress, isJobWhitelisted, isVehicleWhitelisted, speedMultipl
   end
 
   lib.onCache('vehicle', function(vehicle)
-    DebugPrint('Vehicle cache updated: %s', vehicle and tostring(vehicle) or 'nil')
-    if not vehicle then return end
+    if not vehicle then
+      activeThreadId = activeThreadId + 1 -- invalidate any running thread
+      return
+    end
     startVehicleStressThread()
   end)
 
-  CreateThread(function()
-    if cache.vehicle then
-      DebugPrint('Vehicle cache present at start, starting stress thread')
-      startVehicleStressThread()
-    end
-  end)
+  if cache.vehicle then
+    startVehicleStressThread()
+  end
 end

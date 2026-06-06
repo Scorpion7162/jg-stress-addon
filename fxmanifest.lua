@@ -6,19 +6,23 @@ description 'For support or other queries: discord.gg/jgscripts'
 repository 'https://github.com/jgscripts/jg-stress-addon'
 version '2.1.0'
 
-client_scripts {
-  'client/init.lua',
-  'client/vehicle.lua',
-  'client/weapon.lua',
-  'client/effects.lua',
-  'client/whitelist.lua',
-  'client/stress.lua'
-}
-
 shared_scripts {
   '@ox_lib/init.lua',
   'shared/utils.lua',
   'config/config.lua',
+}
+
+client_scripts {
+  'client/init.lua',
+}
+
+-- Loaded on demand by client/init.lua via lib.load; listed here only so they are sent to clients.
+files {
+  'client/whitelist.lua',
+  'client/stress.lua',
+  'client/vehicle.lua',
+  'client/weapon.lua',
+  'client/effects.lua',
 }
 
 server_scripts {

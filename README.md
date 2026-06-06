@@ -23,13 +23,14 @@ local stress = LocalPlayer.state.stress or 0
 
 ### Resetting/reducing the player's stress level
 
+This resource is compatible with `sv_stateBagStrictMode`: every stress write is performed on the server, so reduce stress by asking the server rather than writing the statebag on the client. This is so you can enable the strict mode without any issues (which ox_lib strongly recommends now)
+
 ```lua
-local amountToReduceBy = 100
-local state = LocalPlayer.state
-state:set("stress", math.max(0, (state.stress or 0) - amountToReduceBy))
+-- From the client (the server validates and performs the write)
+TriggerServerEvent('hud:server:RelieveStress', 100)
 ```
 
-This script also includes the server sided event `hud:server:RelieveStress`, to relieve stress with existing Qbox/QBCore integrations.
+This is the server sided event `hud:server:RelieveStress`, which relieves stress with existing Qbox/QBCore integrations.
 
 ### License/Disclaimer
 
